@@ -18,6 +18,9 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
     @IBOutlet weak var tagButton: UIButton!
     @IBOutlet weak var getButton: UIButton!
     
+    var location: CLLocation?
+    //将用户目前的位置存放在整个变量里
+    
     let locationManager = CLLocationManager()
     
     @IBAction func getLocation() {
@@ -56,6 +59,8 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let newLocation = locations.last!
         print("didUpdatelocations \(newLocation)")
+        location = newLocation
+        updateLabels()
     }
     
     func showLocationServicesDeniedAlert() {
@@ -64,6 +69,25 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(okAction)
         present(alert,animated: true,completion: nil)
+    }
+    
+    func updateLabels(){
+        if let location = location {
+            //location实例变量是可选型，所以你使用if let语句来对它进行解包
+            latitudeLabel.text = String(format: "%.8f", location.coordinate.latitude)
+            //%.8f是格式说明符，而字符串中插入的值就是location.coordinate.latitude.
+            //%d用于整数，%f用于浮点数，%@用于任意对象
+            //这里%.8f与%f作用一样，都是将浮点数放入字符串中，.8的意思是该浮点数仅保留8位小数
+            longtitudeLabel.text = String(format: "%.8f", location.coordinate.longitude)
+            tagButton.isHidden = false
+            messageLabel.text = ""
+        } else {
+            latitudeLabel.text = ""
+            longtitudeLabel.text = ""
+            addressLabel.text = ""
+            tagButton.isHidden = true
+            messageLabel.text = "Tap 'Get My Location' to start"
+        }
     }
 
 }
