@@ -20,6 +20,9 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
     
     var location: CLLocation?
     //将用户目前的位置存放在整个变量里
+    var updatingLocation = false
+    var lastLocationError: Error?
+    
     
     let locationManager = CLLocationManager()
     
@@ -36,14 +39,14 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
             return
         }
         
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-        locationManager.startUpdatingLocation()
+        startLocationManager()
+        updateLabels()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        updateLabels()
+        //调用updateLabels
     }
 
     override func didReceiveMemoryWarning() {
@@ -54,12 +57,25 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
     //MARK: - CLLoctionManagerDelegate
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("didFailWithError \(error)")
+        
+        if (error as NSError).code == CLError.locationUnknown.rawValue {
+            return
+        }
+        
+        lastLocationError = error
+        //将error存储到新的实例变量lastlocationError中
+        
+        stopLocationManager()
+        //如果无法获取用户的位置信息时，应该停止location manager
+        updateLabels()
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let newLocation = locations.last!
         print("didUpdatelocations \(newLocation)")
         location = newLocation
+        lastLocationError = nil
+        //获取一个位置信息时，把之前的错误信息都清除掉
         updateLabels()
     }
     
@@ -86,7 +102,42 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
             longtitudeLabel.text = ""
             addressLabel.text = ""
             tagButton.isHidden = true
-            messageLabel.text = "Tap 'Get My Location' to start"
+            
+            let statusMessage: String
+            if let error = lastLocationError as? NSError{
+                if error.domain == kCLErrorDomain && error.code == CLError.denied.rawValue {
+                    //首先检查授权信息
+                    statusMessage = "Location Services Disable"
+                } else {
+                    statusMessage = "Error Getting Location"
+                }
+            } else if !CLLocationManager.locationServicesEnabled() {
+                //检查位置服务的开关
+                statusMessage = "Location Services Disabled"
+            } else if updatingLocation {
+                statusMessage = "Searching..."
+            } else {
+                statusMessage = "Tap 'Get My Location' to Start"
+            }
+            messageLabel.text = statusMessage
+        }
+    }
+    
+    func startLocationManager() {
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+            updatingLocation = true
+        }
+    }
+    
+    func stopLocationManager() {
+        if updatingLocation {
+            //updatingLocation作用是，在获取位置信息时，用它来改变Get MyLocation按钮的状态，以及message标签的信息，这样用户就可以知道app的工作状态，而不是一无所知
+            locationManager.stopUpdatingLocation()
+            locationManager.delegate = nil
+            updatingLocation = false
         }
     }
 
