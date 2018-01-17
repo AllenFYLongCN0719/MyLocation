@@ -73,12 +73,34 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let newLocation = locations.last!
         print("didUpdatelocations \(newLocation)")
-        location = newLocation
-        lastLocationError = nil
-        //获取一个位置信息时，把之前的错误信息都清除掉
-        updateLabels()
-    }
+        
+        //1 如果获得location对象的时间过长，那么就返回一个最近的地址，而不是一个新的位置。
+        if newLocation.timestamp.timeIntervalSinceNow < -5 {
+            return
+        }
+        
+        //2 判断最新的位置精度是否比
+        if newLocation.horizontalAccuracy < 0 {
+            return
+        }
+        
+        //3 决定最后获取的这个位置是否比之前一个更精确并且检查location == nil的情况。
+        if location == nil || location!.horizontalAccuracy > newLocation.horizontalAccuracy {
+            //4
+            lastLocationError = nil
+            location = newLocation
+        
+            //获取一个位置信息时，把之前的错误信息都清除掉
+            updateLabels()
+        }
+        
+        //5 如果获取到的位置的精度，比设定要求的精度还要高，就可以直接退出location manager
+        if newLocation.horizontalAccuracy <= locationManager.desiredAccuracy {
+            print("*** We're Done!")
+            stopLocationManager()
+        }
     
+    }
     func showLocationServicesDeniedAlert() {
         //这个弹出窗口会展示一条有用的信息，如果无法获取位置信息的话，这个app就是无用的，所以应该鼓励用户打开location服务的授权
         let alert = UIAlertController(title: "Location Services Disabled", message: "Please enable location services for this app in Settings.", preferredStyle: .alert)
