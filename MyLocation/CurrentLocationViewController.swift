@@ -41,11 +41,13 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
         
         startLocationManager()
         updateLabels()
+        configureGetButton()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         updateLabels()
+        configureGetButton()
         //调用updateLabels
     }
 
@@ -68,6 +70,7 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
         stopLocationManager()
         //如果无法获取用户的位置信息时，应该停止location manager
         updateLabels()
+        configureGetButton()
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -98,6 +101,7 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
         if newLocation.horizontalAccuracy <= locationManager.desiredAccuracy {
             print("*** We're Done!")
             stopLocationManager()
+            configureGetButton()
         }
     
     }
@@ -160,6 +164,14 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
             locationManager.stopUpdatingLocation()
             locationManager.delegate = nil
             updatingLocation = false
+        }
+    }
+    
+    func configureGetButton() {
+        if updatingLocation {
+            getButton.setTitle("Stop", for: .normal)
+        } else {
+            getButton.setTitle("Get MyLocation", for: .normal)
         }
     }
 
