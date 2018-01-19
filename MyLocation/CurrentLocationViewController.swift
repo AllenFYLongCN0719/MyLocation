@@ -23,6 +23,11 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
     var updatingLocation = false
     var lastLocationError: Error?
     
+    //地址解析
+    let geocoder = CLGeocoder()
+    var placemarks: CLPlacemark?
+    var performingReverseGeocoding = false
+    var lastGeocodingError: Error?
     
     let locationManager = CLLocationManager()
     
@@ -39,7 +44,14 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
             return
         }
         
-        startLocationManager()
+        //给stop按键提供功能
+        if updatingLocation {
+            stopLocationManager()
+        } else {
+            location = nil
+            lastLocationError = nil
+            startLocationManager()
+        }
         updateLabels()
         configureGetButton()
     }
@@ -102,6 +114,28 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
             print("*** We're Done!")
             stopLocationManager()
             configureGetButton()
+        }
+        
+        if !performingReverseGeocoding {
+            //当调用(didUpdateLocations)方法时，闭包中代码并不是立即执行
+            print("*** Going to geocode")
+            performingReverseGeocoding = true
+            geocoder.reverseGeocodeLocation(newLocation, completionHandler: {
+                //闭包
+                placemarks,error in
+                print("*** Found placemarks:\(placemarks),error:\(error)")
+                self.lastLocationError = error
+                if error == nil, let p = placemarks, !p.isEmpty {
+                // if there's no error and the unwrapped placemarks arrary is not empty
+                    //如果这里没有报错并且解包后的placemarks不为空
+                    self.placemarks = p.last!
+                    //获取数组中的最后一条CLPlacemark对象
+                } else {
+                    self.placemarks = nil
+                }
+                self.performingReverseGeocoding = false
+                self.updateLabels()
+            })
         }
     
     }
