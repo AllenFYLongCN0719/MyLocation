@@ -50,6 +50,8 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
         } else {
             location = nil
             lastLocationError = nil
+            placemarks = nil
+            lastGeocodingError = nil
             startLocationManager()
         }
         updateLabels()
@@ -147,6 +149,36 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
         present(alert,animated: true,completion: nil)
     }
     
+    func string(from placemarks: CLPlacemark) -> String {
+        //1 为第一行文本创建一个新的String型变量
+        var line1 = ""
+        //2 如果placemark有一个子街道，就把它添加到字符串中。z
+        if let s = placemarks.subThoroughfare {
+            line1 += s + ""
+        }
+        //3 把街道名称添加进字符串。
+        if let s = placemarks.thoroughfare {
+            line1 += s
+        }
+        //4 穿件一个新的变量 保存城市，省份，以及邮政编码
+        var line2 = ""
+        
+        if let s = placemarks.locality {
+            line2 += s + " "
+        }
+        
+        if let s = placemarks.administrativeArea {
+            line2 += s + " "
+        }
+        
+        if let s = placemarks.postalCode {
+            line2 += s
+        }
+        
+        //5 把两个字符串拼接为一个字符串，\n的意思是换行
+        return line1 + "\n" + line2
+    }
+    
     func updateLabels(){
         if let location = location {
             //location实例变量是可选型，所以你使用if let语句来对它进行解包
@@ -157,11 +189,23 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
             longtitudeLabel.text = String(format: "%.8f", location.coordinate.longitude)
             tagButton.isHidden = false
             messageLabel.text = ""
+            
+            if let placemark = placemarks {
+                addressLabel.text = string(from: placemark)
+            } else if performingReverseGeocoding {
+                addressLabel.text =  "Searching for Address..."
+            } else if lastGeocodingError != nil {
+                addressLabel.text = "Error Finding Address"
+            } else {
+                addressLabel.text = "No Address Found"
+            }
+            
         } else {
             latitudeLabel.text = ""
             longtitudeLabel.text = ""
             addressLabel.text = ""
             tagButton.isHidden = true
+
             
             let statusMessage: String
             if let error = lastLocationError as? NSError{
@@ -208,6 +252,8 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
             getButton.setTitle("Get MyLocation", for: .normal)
         }
     }
+    
+
 
 }
 
