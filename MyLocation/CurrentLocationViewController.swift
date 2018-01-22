@@ -29,6 +29,8 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
     var performingReverseGeocoding = false
     var lastGeocodingError: Error?
     
+    var timer: Timer?
+    
     let locationManager = CLLocationManager()
     
     @IBAction func getLocation() {
@@ -101,6 +103,12 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
             return
         }
         
+        //计算新的位置和上一个位置之间的距离差值。可以使用这个差值来判断我们的位置是不是再继续提高精度
+        var distance = CLLocationDistance(Float.greatestFiniteMagnitude)
+        if let location = location {
+            distance = newLocation.distance(from: location)
+        }
+        
         //3 决定最后获取的这个位置是否比之前一个更精确并且检查location == nil的情况。
         if location == nil || location!.horizontalAccuracy > newLocation.horizontalAccuracy {
             //4
@@ -116,6 +124,12 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
             print("*** We're Done!")
             stopLocationManager()
             configureGetButton()
+            
+            //当最后一个地址是你能够找到的精度最高的地址时，这个时候需要跳过仍然在执行的地址解析。
+            if distance > 0 {
+                performingReverseGeocoding = false
+                //设置为false，强制的将最后一个坐标进行抵制解析。
+            }
         }
         
         if !performingReverseGeocoding {
@@ -138,6 +152,16 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
                 self.performingReverseGeocoding = false
                 self.updateLabels()
             })
+            
+            //如果当前读取到的左边和上一个差距不大，并且这种情况维持了10秒，就强制停止location manager
+        } else if distance < 1 {
+            let timeInterval = newLocation.timestamp.timeIntervalSince(location!.timestamp)
+            if timeInterval > 10 {
+                print("***Force done!")
+                stopLocationManager()
+                updateLabels()
+                configureGetButton()
+            }
         }
     
     }
@@ -233,6 +257,9 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
             updatingLocation = true
+            
+            timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(didTimeOut), userInfo: nil, repeats: false)
+            //新的一行设置了一个timer对象，用于60秒后发送"didTimeOut"信息给它自己，didTimeOut是一个方法。
         }
     }
     
@@ -242,6 +269,11 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
             locationManager.stopUpdatingLocation()
             locationManager.delegate = nil
             updatingLocation = false
+            
+            //当location manager在超出时间前就被停止的情况下，你必须取消掉timer。这个情况发生在一分钟内已经获得了精度足够的位置的情况下，或者用户在不到一分钟的时候点击了stop按钮
+            if let timer = timer {
+                timer.invalidate()
+            }
         }
     }
     
@@ -253,6 +285,17 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
         }
     }
     
+    //使用#selector(didTimeOut)时，需要在func didTimeOut()前添加 @objc
+    @objc func didTimeOut() {
+        print("*** Time Out")
+        
+        if location == nil {
+            stopLocationManager()
+            lastLocationError = NSError(domain: "MyLocationErrorDomain", code: 1, userInfo: nil)
+            updateLabels()
+            configureGetButton()
+        }
+    }
 
 
 }
