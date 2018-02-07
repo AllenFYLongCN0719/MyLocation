@@ -288,12 +288,12 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="addressLabel" destination="uFJ-FT-OT3" id="rb7-WZ-WOg"/>
-                        <outlet property="categoryLabel" destination="fRb-FT-M1n" id="4JY-cG-Ihu"/>
-                        <outlet property="dateLabel" destination="WjO-HH-pYd" id="6OS-BU-k0f"/>
-                        <outlet property="descriptionTextView" destination="Awh-I4-hU6" id="LAp-UF-YDt"/>
-                        <outlet property="latitudeLabel" destination="H0w-5d-EQu" id="YnI-m8-5mP"/>
-                        <outlet property="longitudeLabel" destination="bXj-sM-wQa" id="O9F-Lm-Xu1"/>
+                        <outlet property="addressLabel" destination="7KA-NX-h6L" id="nLP-10-COP"/>
+                        <outlet property="categoryLabel" destination="0nf-H2-VEW" id="9aT-F9-1es"/>
+                        <outlet property="dateLabel" destination="2qP-Db-0sU" id="xfP-yP-T0b"/>
+                        <outlet property="descriptionTextView" destination="Awh-I4-hU6" id="FGC-oq-tbW"/>
+                        <outlet property="latitudeLabel" destination="zrQ-SG-zXT" id="PSR-Z6-kR0"/>
+                        <outlet property="longitudeLabel" destination="C1y-fc-1iH" id="TSK-25-MVC"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eHJ-yN-ffR" userLabel="First Responder" sceneMemberID="firstResponder"/>

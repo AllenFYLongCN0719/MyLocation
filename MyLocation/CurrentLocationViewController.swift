@@ -9,13 +9,6 @@
 import UIKit
 import CoreLocation
 
-//这个常量时私有的，不能在本文件之外使用它。
-private let dateFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .medium
-    formatter.timeStyle = .short
-    return formatter
-}() //说明这是一个闭包
 
 class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate {
 
@@ -89,6 +82,7 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
         // Dispose of any resources that can be recreated.
     }
     
+
     
 //MARK: - CLLoctionManagerDelegate
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

@@ -10,6 +10,15 @@ import Foundation
 import UIKit
 import CoreLocation
 
+//这个常量时私有的，不能在本文件之外使用它。
+private let dateFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.dateStyle = .medium
+    formatter.timeStyle = .short
+    print("123")
+    return formatter
+}() //说明这是一个闭包
+
 class LocationDetailsViewController: UITableViewController {
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var categoryLabel: UILabel!
@@ -42,7 +51,7 @@ class LocationDetailsViewController: UITableViewController {
         } else {
             addressLabel.text = "No Address Found"
         }
-        dateLabel.text = format(date:Date())
+        dateLabel.text = format(date: Date())
     }
     
     func string(from placemark: CLPlacemark) -> String {
@@ -67,6 +76,11 @@ class LocationDetailsViewController: UITableViewController {
             text += s
         }
         return text
+    }
+    
+    //创建format(date)方法
+    func format(date: Date) -> String {
+        return dateFormatter.string(from:date)
     }
 }
 
