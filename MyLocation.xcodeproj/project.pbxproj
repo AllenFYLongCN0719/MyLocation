@@ -13,6 +13,7 @@
 		23890BA120024B070026E4BE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23890B9F20024B070026E4BE /* Main.storyboard */; };
 		23890BA320024B070026E4BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23890BA220024B070026E4BE /* Assets.xcassets */; };
 		23890BA620024B070026E4BE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23890BA420024B070026E4BE /* LaunchScreen.storyboard */; };
+		238A63C120332B3C00E37EBC /* CategoryPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238A63C020332B3C00E37EBC /* CategoryPickerViewController.swift */; };
 		239EE532201F6073009A4D71 /* LocationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239EE531201F6073009A4D71 /* LocationDetailsViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -25,6 +26,7 @@
 		23890BA220024B070026E4BE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		23890BA520024B070026E4BE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		23890BA720024B070026E4BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		238A63C020332B3C00E37EBC /* CategoryPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPickerViewController.swift; sourceTree = "<group>"; };
 		239EE531201F6073009A4D71 /* LocationDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetailsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -61,6 +63,7 @@
 				23890B9920024B070026E4BE /* AppDelegate.swift */,
 				23890B9B20024B070026E4BE /* CurrentLocationViewController.swift */,
 				239EE531201F6073009A4D71 /* LocationDetailsViewController.swift */,
+				238A63C020332B3C00E37EBC /* CategoryPickerViewController.swift */,
 				23890B9D20024B070026E4BE /* SecondViewController.swift */,
 				23890B9F20024B070026E4BE /* Main.storyboard */,
 				23890BA220024B070026E4BE /* Assets.xcassets */,
@@ -145,6 +148,7 @@
 				239EE532201F6073009A4D71 /* LocationDetailsViewController.swift in Sources */,
 				23890B9E20024B070026E4BE /* SecondViewController.swift in Sources */,
 				23890B9A20024B070026E4BE /* AppDelegate.swift in Sources */,
+				238A63C120332B3C00E37EBC /* CategoryPickerViewController.swift in Sources */,
 				23890B9C20024B070026E4BE /* CurrentLocationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
