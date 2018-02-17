@@ -46,6 +46,17 @@ class LocationDetailsViewController: UITableViewController {
         categoryLabel.text = categoryName
     }
     
+    @objc func hideKeyboard(_ gestureRecognizer: UIGestureRecognizer) {
+        let point = gestureRecognizer.location(in: tableView)
+        let indexPath = tableView.indexPathForRow(at: point)
+        if indexPath != nil && indexPath!.section == 0 && indexPath!.row == 0 {
+            //用户可能会在table view内部轻点，而不在单元格内，例如在两个部分之间的某个位置或者text view上。在这种情况下，indexPath将是nil。
+            //只有indexpath.section不是0，row不是0的时候，才隐藏小键盘
+            return
+        }
+        descriptionTextView.resignFirstResponder()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         descriptionTextView.text = ""
@@ -61,6 +72,10 @@ class LocationDetailsViewController: UITableViewController {
             addressLabel.text = "No Address Found"
         }
         dateLabel.text = format(date: Date())
+        
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+            gestureRecognizer.cancelsTouchesInView = false
+            tableView.addGestureRecognizer(gestureRecognizer)
     }
     
     func string(from placemark: CLPlacemark) -> String {
@@ -111,6 +126,22 @@ class LocationDetailsViewController: UITableViewController {
             return 44
         }
         
+    }
+    
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        if indexPath.section == 0 || indexPath.section == 1 {
+            // section= 0 或者 1时
+            return indexPath
+        } else {
+            return nil
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 0 && indexPath.row == 0 {
+            // and
+            descriptionTextView.becomeFirstResponder()
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
