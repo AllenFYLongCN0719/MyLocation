@@ -54,6 +54,13 @@ class LocationDetailsViewController: UITableViewController {
             //只有indexpath.section不是0，row不是0的时候，才隐藏小键盘
             return
         }
+        
+        /* 意思是indexPath为nil或者indexpath不是section为0和row为0时，隐藏小键盘（感叹号处在在表达式前面时，是 非 的意思）
+         if indexPath == nil ||
+         !(indexPath!.section == 0 && indexPath!.row == 0) {
+          descriptionTextView.resignFirstReponder()
+         }
+         */
         descriptionTextView.resignFirstResponder()
     }
     

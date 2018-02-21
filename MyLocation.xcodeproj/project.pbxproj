@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		23866F72203DCFDF00CD17BA /* HudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23866F71203DCFDF00CD17BA /* HudView.swift */; };
 		23890B9A20024B070026E4BE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23890B9920024B070026E4BE /* AppDelegate.swift */; };
 		23890B9C20024B070026E4BE /* CurrentLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23890B9B20024B070026E4BE /* CurrentLocationViewController.swift */; };
 		23890B9E20024B070026E4BE /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23890B9D20024B070026E4BE /* SecondViewController.swift */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		23866F71203DCFDF00CD17BA /* HudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HudView.swift; sourceTree = "<group>"; };
 		23890B9620024B070026E4BE /* MyLocation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyLocation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		23890B9920024B070026E4BE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		23890B9B20024B070026E4BE /* CurrentLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationViewController.swift; sourceTree = "<group>"; };
@@ -65,6 +67,7 @@
 				239EE531201F6073009A4D71 /* LocationDetailsViewController.swift */,
 				238A63C020332B3C00E37EBC /* CategoryPickerViewController.swift */,
 				23890B9D20024B070026E4BE /* SecondViewController.swift */,
+				23866F71203DCFDF00CD17BA /* HudView.swift */,
 				23890B9F20024B070026E4BE /* Main.storyboard */,
 				23890BA220024B070026E4BE /* Assets.xcassets */,
 				23890BA420024B070026E4BE /* LaunchScreen.storyboard */,
@@ -147,6 +150,7 @@
 			files = (
 				239EE532201F6073009A4D71 /* LocationDetailsViewController.swift in Sources */,
 				23890B9E20024B070026E4BE /* SecondViewController.swift in Sources */,
+				23866F72203DCFDF00CD17BA /* HudView.swift in Sources */,
 				23890B9A20024B070026E4BE /* AppDelegate.swift in Sources */,
 				238A63C120332B3C00E37EBC /* CategoryPickerViewController.swift in Sources */,
 				23890B9C20024B070026E4BE /* CurrentLocationViewController.swift in Sources */,
