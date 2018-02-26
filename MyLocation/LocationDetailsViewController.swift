@@ -33,7 +33,7 @@ class LocationDetailsViewController: UITableViewController {
     var categoryName = "No Category"
     
     @IBAction func done() {
-        dismiss(animated: true, completion: nil)
+        //dismiss(animated: true, completion: nil)
         let hudView = HudView.hud(inView: navigationController!.view, animated: true)
         hudView.text = "Tagged"
     }

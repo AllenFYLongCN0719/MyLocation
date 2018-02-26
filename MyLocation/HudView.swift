@@ -23,7 +23,7 @@ class HudView: UIView {
         let boxWidth: CGFloat = 96
         let boxHeight: CGFloat = 96
         
-        let boxRect = CGRect (x: round((bounds.size.width - boxWidth) / 2), y: round((bounds.size.height) / 2), width: boxWidth, height: boxHeight)
+        let boxRect = CGRect (x: round((bounds.size.width - boxWidth) / 2), y: round((bounds.size.height - boxHeight) / 2), width: boxWidth, height: boxHeight)
         //它是用来代表矩形的结构
         
         let roundedRect = UIBezierPath(roundedRect: boxRect, cornerRadius: 10)
@@ -33,5 +33,15 @@ class HudView: UIView {
         //设置为灰色，透明度为80%
         
         roundedRect.fill()
+        
+        if let image = UIImage(named: "Checkmark") {
+            let imagePoint = CGPoint(
+                x: center.x - round(image.size.width / 2),
+                y: center.y - round(image.size.height / 2) - boxHeight / 8)
+            
+            image.draw(at: imagePoint)
+        }
     }
+    
+    
 }
