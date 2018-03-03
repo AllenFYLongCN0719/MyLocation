@@ -16,6 +16,7 @@ class HudView: UIView {
         hudView.isOpaque = false
         view.addSubview(hudView)
         view.isUserInteractionEnabled = false
+        hudView.show(animated: animated)
         return hudView
     }
     
@@ -52,5 +53,18 @@ class HudView: UIView {
         text.draw(at:textPoint, withAttributes: attribs)
     }
     
+    func show(animated: Bool) {
+        if animated {
+            //1 在动画开始前设置视图的初始状态。这里为完全透明。
+            alpha = 0
+            transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+            //2 调用UIView.animate(withDuration)设置动画，这里是在闭包中定义了动画。UIKit将这些属性在闭包内从初始状态改变到最终状态，并将其动画化。
+            UIView.animate(withDuration: 0.3, animations: {
+                //3 在闭包内部，最终状态是alpha为1，就是说HudView视图此时完全不透明。因为这些代码在闭包中，所以引用这些属性必须使用self关键词。
+                self.alpha = 1
+                self.transform = CGAffineTransform.identity
+            })
+        }
+    }
     
 }
