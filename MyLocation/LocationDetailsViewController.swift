@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import CoreLocation
+import CoreData
 
 //这个常量时私有的，不能在本文件之外使用它。
 private let dateFormatter: DateFormatter = {
@@ -32,6 +33,8 @@ class LocationDetailsViewController: UITableViewController {
     
     var categoryName = "No Category"
     
+    var managedObjectContext: NSManagedObjectContext!
+                                                                             
     @IBAction func done() {
         //dismiss(animated: true, completion: nil)
         let hudView = HudView.hud(inView: navigationController!.view, animated: true)
