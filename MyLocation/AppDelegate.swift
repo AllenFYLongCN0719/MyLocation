@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name:"DataModel")
+        let container = NSPersistentContainer(name: "DataModel")
         container.loadPersistentStores(completionHandler: {
             storeDscription, error in
             if let error = error {
@@ -28,15 +28,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     lazy var managedObjectContext: NSManagedObjectContext = self.persistentContainer.viewContext
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        let tabBarController = window!.rootViewController
-            as! UITabBarController
+        let tabBarController = window!.rootViewController as! UITabBarController
         if let tabBarViewControllers = tabBarController.viewControllers {
             let currentLocationViewController = tabBarViewControllers[0]
                 as! CurrentLocationViewController
-            currentLocationViewController.managedObjectContext = managedObjectContext
+            currentLocationViewController.managedObjectContext =
+            managedObjectContext
         }
-        
+        print(applicationDocumentsDirectory)
         return true
+        
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

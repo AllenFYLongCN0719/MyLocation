@@ -16,3 +16,9 @@ func afterDelay(_ seconds: Double, closure: @escaping () -> ()) {
     // @escaping的意思是，闭包的代码不要立即执行。
     DispatchQueue.main.asyncAfter(deadline: .now() + seconds, execute: closure)
 }
+    //以下代码可找到存储Core Data数据的DataModel.sqlite文件
+    //创建了一个新的全局变量，其中包含app的documents目录的路径
+    let applicationDocumentsDirectory: URL = {
+    let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+    return paths[0]
+}()
